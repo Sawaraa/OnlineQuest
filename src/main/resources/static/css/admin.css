@@ -1,0 +1,337 @@
+@import url('https://unpkg.com/normalize.css') layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+    :root {
+        --accent: hsl(200 80% 50%);
+        --border: color-mix(in oklch, canvas, canvasText 15%);
+        --background: color-mix(in oklch, canvas, canvasText 2%);
+        --head: light-dark(hsl(0 0% 98%), canvas);
+        --selected: color-mix(in oklch, var(--accent), canvas 85%);
+        --color: color-mix(in hsl, canvasText, #0000 50%);
+        --hover-background: light-dark(hsl(0 0% 92%), hsl(0 0% 10%));
+        --sibling-hover: red;
+        --hover-color: green;
+    }
+    .members {
+        background: light-dark(#fff, #000);
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+    }
+    table {
+        font-size: 0.875rem;
+        border-collapse: collapse;
+        background: #0000;
+        color: var(--color);
+    }
+    input {
+        color: var(--color);
+    }
+    table:focus-within tbody tr:not(:focus-within) {
+        filter: blur(4px) saturate(0.2);
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    tr:focus-within {
+        background: white;
+        tr:focus-within td,
+        tr:focus-within input {
+            color: black !important;
+        }
+        tr:focus-within select,
+        tr:focus-within button {
+            color: black !important;
+            background: white !important;
+            outline: none !important;
+        }
+    }
+    thead {
+        background: var(--head);
+    }
+    th,
+    td:first-of-type {
+        padding: 0.25rem 1rem;
+    }
+    :is(td, th) {
+        height: 40px;
+    }
+    td {
+        font-weight: 300;
+    }
+    tr {
+        transition-property: filter, background, opacity;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-out;
+
+        &:not(:last-of-type) {
+            border-bottom: 1px solid var(--head);
+        }
+    }
+
+    table :is(td, th) {
+        white-space: nowrap;
+        font-weight: 400;
+        font-size: 0.875rem;
+    }
+    table th {
+        text-align: left;
+        font-weight: 500;
+        color: color-mix(in hsl, canvasText, #0000 35%);
+    }
+    thead {
+        background: var(--head);
+    }
+
+    td:not(:has(input)) {
+        padding: 0.5rem 1rem;
+    }
+
+    tr:focus-within input:hover:not(:focus-visible) {
+        background: color-mix(in oklch, var(--accent), #0000 75%);
+    }
+
+    table input {
+        font-size: inherit;
+        height: 40px;
+        font-weight: inherit;
+        border: 0;
+        padding: 0.5rem 1rem;
+        height: 100%;
+        background: #0000;
+        border-radius: 0;
+        caret-color: var(--accent);
+        transition: color 0.26s ease-out;
+
+        &:hover:not(:focus-visible) {
+            background: var(--hover-background);
+        }
+        &::selection {
+            background: var(--accent);
+            color: white;
+        }
+        &:focus-visible {
+            background: light-dark(#fff, #000);
+            outline: 2px solid var(--accent);
+        }
+    }
+
+    input:not(:focus, :focus-visible) {
+        cursor: pointer;
+    }
+    table img {
+        border-radius: 50%;
+        width: 24px;
+        aspect-ratio: 1;
+    }
+}
+
+@layer base {
+    :root {
+        --font-size-min: 16;
+        --font-size-max: 20;
+        --font-ratio-min: 1.2;
+        --font-ratio-max: 1.33;
+        --font-width-min: 375;
+        --font-width-max: 1500;
+    }
+
+    html {
+        color-scheme: light dark;
+    }
+
+    [data-theme='light'] {
+        color-scheme: light only;
+    }
+
+    [data-theme='dark'] {
+        color-scheme: dark only;
+    }
+
+    :where(.fluid) {
+        --fluid-min: calc(
+                var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+        );
+        --fluid-max: calc(
+                var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+        );
+        --fluid-preferred: calc(
+                (var(--fluid-max) - var(--fluid-min)) /
+                (var(--font-width-max) - var(--font-width-min))
+        );
+        --fluid-type: clamp(
+                (var(--fluid-min) / 16) * 1rem,
+                ((var(--fluid-min) / 16) * 1rem) -
+                (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+                (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+                (var(--fluid-max) / 16) * 1rem
+        );
+        font-size: var(--fluid-type);
+    }
+
+    *,
+    *:after,
+    *:before {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: white;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+        Helvetica, Arial, sans-serif, system-ui;
+    }
+
+    body::before {
+        --size: 45px;
+        --line: #7ec8e3;
+        content: '';
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        background: linear-gradient(
+                90deg,
+                var(--line) 1px,
+                transparent 1px var(--size)
+        )
+        calc(var(--size) * 0.36) 50% / var(--size) var(--size),
+        linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0%
+        calc(var(--size) * 0.32) / var(--size) var(--size);
+        mask: linear-gradient(-20deg, transparent 50%, white);
+        top: 0;
+        transform-style: flat;
+        pointer-events: none;
+        z-index: -1;
+        display: block;
+    }
+
+    .bear-link {
+        color: canvasText;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        width: 48px;
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        opacity: 0.8;
+    }
+
+    :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+        opacity: 1;
+    }
+
+    .bear-link svg {
+        width: 75%;
+    }
+
+    /* Utilities */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    font-family: monospace;
+    opacity: .5;
+}
+
+.members table {
+    width: 90vw;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(126 200 227 / 0.2);
+}
+
+.members thead {
+    background: rgba(126, 200, 227, 0.5);
+    color: #003f6b;
+    font-weight: 600;
+}
+
+.members table th,
+.members table td {
+    height: 50px;
+    padding: 0.5rem 1.5rem;
+}
+
+body,
+.members,
+.members table,
+.members table th,
+.members table td,
+h1 {
+    color: #000000;
+}
+
+
+/* 3. Стилі для кнопок */
+button {
+    background-color: white;
+    color: #007acc; /* яскраво-голубий */
+    border: 2px solid #007acc;
+    border-radius: 6px;
+    padding: 0.4em 1.2em;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+button:hover,
+button:focus {
+    background-color: #b3d7ff; /* світло-голубий */
+    color: #003f6b; /* темніший голубий */
+    outline: none;
+}
+
+button:active {
+    background-color: #005a9e; /* темно-голубий */
+    color: white;
+}
+
+select {
+    background-color: white;
+    color: #007acc;
+    border: 2px solid #007acc;
+    border-radius: 6px;
+    padding: 0.4em 1.2em;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 0.8em top 50%;
+    background-size: 10px 7px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+select:hover,
+select:focus {
+    background-color: #b3d7ff;
+    color: #003f6b;
+    outline: none;
+}
+
+select:active {
+    background-color: #005a9e;
+    color: white;
+}
+
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Registration </title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="members">
+    <table role="grid">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                    <td><span th:text="${user.username}"></span></td>
+                    <td><span th:text="${user.email}"></span></td>
+                    <td>
+                        <form th:action="@{/updateRole/{id}(id=${user.id})}" method="post" th:id="'form-' + ${user.id}">
+                            <select name="role"  th:onchange="'submitRoleForm(' + ${user.id} + ')'">
+                                <option value="USER" th:selected="${user.role.name() == 'USER'}">USER</option>
+                                <option value="ADMIN" th:selected="${user.role.name() == 'ADMIN'}">ADMIN</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/delete/{id}(id=${user.id})}" method="post">
+                            <button type="submit"> Delete </button>
+                        </form>
+                    </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    function submitRoleForm(userId) {
+        const form = document.getElementById('form-' + userId);
+        if (form) {
+            form.submit();
+        }
+    }
+</script>
+</body>
