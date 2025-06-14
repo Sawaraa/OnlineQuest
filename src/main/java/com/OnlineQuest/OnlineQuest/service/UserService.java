@@ -1,5 +1,6 @@
 package com.OnlineQuest.OnlineQuest.service;
 
+import com.OnlineQuest.OnlineQuest.model.BCrypt.PasswordUtil;
 import com.OnlineQuest.OnlineQuest.model.Role;
 import com.OnlineQuest.OnlineQuest.model.User;
 import com.OnlineQuest.OnlineQuest.repositories.UserRepository;
@@ -25,6 +26,8 @@ public class UserService {
             throw new Exception("Username already exists");
         }
 
+        String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
+        user.setPassword(hashedPassword);
         user.setRole(Role.USER);
 
         return userRepository.save(user);
@@ -36,7 +39,7 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new Exception("User not found"));
 
-        if (!rawpassword.equals(user.getPassword())) {
+        if (!PasswordUtil.checkPassword(rawpassword, user.getPassword())) {
             throw new Exception("Incorrect password");
         }
 
