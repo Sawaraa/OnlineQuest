@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Registration </title>
+    <meta charset="UTF-8" />
+    <title>Головна</title>
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}" />
 </head>
 <body>
-<div >
-    <h2>Home</h2>
-</div>
+
+<div th:insert="header :: header"></div>
+
+<h2>Привіт, це головна сторінка!</h2>
+
 </body>
+</html>
