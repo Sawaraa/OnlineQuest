@@ -4,13 +4,21 @@
     <meta charset="UTF-8" />
     <title>Головна</title>
     <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
 
-<!--<div th:insert="header :: header"></div>-->
 <div th:insert="~{header :: header}"></div>
-
-<h2>Привіт, це головна сторінка!</h2>
+<div  class="quest-container">
+    <div class="quest-card" th:each="quest : ${quests}">
+        <img th:src="@{${quest.imagePath}}" alt="Quest image" class="quest-image" />
+        <div class="quest-content">
+            <h2 class="quest-title" th:text="${quest.title}"></h2>
+            <p class="quest-description" th:text="${quest.description}"></p>
+            <button class="start-btn">Start</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

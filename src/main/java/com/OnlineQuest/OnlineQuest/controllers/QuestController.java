@@ -61,7 +61,7 @@ public class QuestController {
         // Збереження зображення
         if (!imageFile.isEmpty()) {
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path uploadPath = Paths.get("uploads/quests");
+            Path uploadPath = Paths.get("src/main/resources/static/uploads/quests");
             Files.createDirectories(uploadPath);
 
             Path filePath = uploadPath.resolve(fileName);

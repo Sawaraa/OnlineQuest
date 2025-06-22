@@ -73,6 +73,12 @@
                 </div>
 
                 <button type="button" class="add-option-btn" data-scene-index="0">+ Додати варіант</button>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="scenes[0].final" />
+                        Це фінальна сцена
+                    </label>
+                </div>
                 <hr />
             </div>
         </div>
@@ -174,6 +180,12 @@
         </div>
 
         <button type="button" class="add-option-btn" data-scene-index="${sceneId}">+ Додати варіант</button>
+        <div class="form-group">
+    <label>
+        <input type="checkbox" name="scenes[${sceneId}].final" />
+        Це фінальна сцена
+    </label>
+</div>
 
         <hr />
     `;
