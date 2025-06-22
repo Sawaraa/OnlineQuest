@@ -16,13 +16,12 @@ public class Option {
     private Long id;
 
     @Column(nullable = false)
-    private String text; // Текст кнопки або вибору
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "scene_id")
     private Scene currentScene;
 
-    @ManyToOne
-    @JoinColumn(name = "next_scene_id")
-    private Scene nextScene;
+    @Column
+    private String nextSceneName;
 }

@@ -1,0 +1,108 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e6f1f9;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    background: white;
+    max-width: 1100px;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: 50px;
+}
+
+h1, h2 {
+    color: #1678c2;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.stars {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.circle {
+    width: 25px;
+    height: 25px;
+    border: 2px solid #1678c2;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.circle.selected {
+    background-color: #1678c2;
+}
+
+.submit-btn {
+    background-color: #1678c2;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0f5fa4;
+}
+
+.options input {
+    margin-bottom: 10px;
+}
+
+.option-block {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.add-option-btn,
+#add-scene-btn {
+    background-color: #e0f0ff;
+    border: 1px solid #99cfff;
+    color: #0077cc;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.add-option-btn:hover,
+#add-scene-btn:hover {
+    background-color: #d0e8ff;
+}

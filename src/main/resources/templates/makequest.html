@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Створення квесту</title>
+    <link rel="stylesheet" href="/css/makequest.css" />
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}" />
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+<div class="container">
+    <h1>Create a new quest</h1>
+
+    <form method="post" th:action="@{/quests/create}" th:object="${quest}" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="title">Quest Title</label>
+            <input type="text" id="title" name="title" th:field="*{title}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Quest Description</label>
+            <textarea id="description" name="description" rows="3" th:field="*{description}" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Difficulty</label>
+            <div class="stars">
+                <span class="circle" data-value="1"></span>
+                <span class="circle" data-value="2"></span>
+                <span class="circle" data-value="3"></span>
+                <span class="circle" data-value="4"></span>
+                <span class="circle" data-value="5"></span>
+                <input type="hidden" name="difficulty" id="difficultyInput" th:field="*{difficulty}" value="0">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Upload Quest Image</label>
+            <input type="file" id="image" name="image" accept="image/*" />
+        </div>
+
+        <hr />
+
+        <h2>Scene</h2>
+
+        <div id="scenes-wrapper">
+            <div class="scene-block" data-scene-index="0">
+                <h3>Scene 1</h3>
+
+                <div class="form-group">
+                    <label>Scene Title</label>
+                    <input type="text" name="scenes[0].name" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Scene Description</label>
+                    <textarea name="scenes[0].text" rows="3" required></textarea>
+                </div>
+
+                <div class="options-wrapper" data-scene-index="0">
+                    <h4>Варіанти</h4>
+                    <div class="option-block">
+                        <input type="text" name="scenes[0].options[0].text" placeholder="Назва варіанту" required />
+                        <input type="text" name="scenes[0].options[0].nextSceneName" placeholder="Назва наступної сцени" required />
+                    </div>
+                </div>
+
+                <button type="button" class="add-option-btn" data-scene-index="0">+ Додати варіант</button>
+                <hr />
+            </div>
+        </div>
+
+        <button type="button" id="add-scene-btn">+ Add a scene</button>
+
+        <br /><br />
+
+        <button type="submit" class="submit-btn">Create a quest</button>
+    </form>
+</div>
+
+<script>
+    const scenesWrapper = document.getElementById('scenes-wrapper');
+    const addSceneBtn = document.getElementById('add-scene-btn');
+    let scenesList = [{ id: 0, name: 'Scene 1' }];
+
+    function updateIndices() {
+        const scenes = scenesWrapper.querySelectorAll('.scene-block');
+        scenes.forEach((scene, i) => {
+            scene.setAttribute('data-scene-index', i);
+            scene.querySelector('h3').textContent = `Scene ${i + 1}`;
+
+            scene.querySelector('input[name^="scenes"]').setAttribute('name', `scenes[${i}].name`);
+            scene.querySelector('textarea[name^="scenes"]').setAttribute('name', `scenes[${i}].text`);
+
+            const optionsWrapper = scene.querySelector('.options-wrapper');
+            optionsWrapper.setAttribute('data-scene-index', i);
+            const optionBlocks = optionsWrapper.querySelectorAll('.option-block');
+            optionBlocks.forEach((option, j) => {
+                option.querySelector('input[placeholder="Назва варіанту"]').setAttribute('name', `scenes[${i}].options[${j}].text`);
+                option.querySelector('input[placeholder="Назва наступної сцени"]').setAttribute('name', `scenes[${i}].options[${j}].nextSceneName`);
+            });
+
+            const addOptionBtn = scene.querySelector('.add-option-btn');
+            addOptionBtn.setAttribute('data-scene-index', i);
+        });
+    }
+
+    addSceneBtn.addEventListener('click', () => {
+        const sceneCount = scenesWrapper.querySelectorAll('.scene-block').length;
+        const sceneId = sceneCount;
+        const sceneName = `Scene ${sceneId + 1}`;
+
+        scenesList.push({ id: sceneId, name: sceneName });
+
+        const newScene = document.createElement('div');
+        newScene.classList.add('scene-block');
+        newScene.setAttribute('data-scene-index', sceneId);
+
+        newScene.innerHTML = `
+            <h3>${sceneName}</h3>
+            <div class="form-group">
+                <label>Scene Title</label>
+                <input type="text" name="scenes[${sceneId}].name" required />
+            </div>
+            <div class="form-group">
+                <label>Scene Description</label>
+                <textarea name="scenes[${sceneId}].text" rows="3" required></textarea>
+            </div>
+
+            <div class="options-wrapper" data-scene-index="${sceneId}">
+                <h4>Варіанти</h4>
+                <div class="option-block">
+                    <input type="text" name="scenes[${sceneId}].options[0].text" placeholder="Назва варіанту" required />
+                    <input type="text" name="scenes[${sceneId}].options[0].nextSceneName" placeholder="Назва наступної сцени" required />
+                </div>
+            </div>
+
+            <button type="button" class="add-option-btn" data-scene-index="${sceneId}">+ Додати варіант</button>
+            <hr />
+        `;
+
+        scenesWrapper.appendChild(newScene);
+        updateIndices();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-option-btn')) {
+            const sceneIndex = e.target.getAttribute('data-scene-index');
+            const sceneBlock = scenesWrapper.querySelector(`.scene-block[data-scene-index="${sceneIndex}"]`);
+            const optionsWrapper = sceneBlock.querySelector('.options-wrapper');
+            const optionCount = optionsWrapper.querySelectorAll('.option-block').length;
+
+            const newOption = document.createElement('div');
+            newOption.classList.add('option-block');
+            newOption.innerHTML = `
+                <input type="text" name="scenes[${sceneIndex}].options[${optionCount}].text" placeholder="Назва варіанту" required />
+                <input type="text" name="scenes[${sceneIndex}].options[${optionCount}].nextSceneName" placeholder="Назва наступної сцени" required />
+            `;
+
+            optionsWrapper.appendChild(newOption);
+            updateIndices();
+        }
+    });
+
+    // Difficulty select
+    const circles = document.querySelectorAll(".circle");
+    const difficultyInput = document.getElementById("difficultyInput");
+
+    circles.forEach(circle => {
+        circle.addEventListener("click", () => {
+            const value = circle.dataset.value;
+            difficultyInput.value = value;
+
+            circles.forEach(c => {
+                c.classList.toggle("selected", c.dataset.value <= value);
+            });
+        });
+    });
+</script>
+</body>
+</html>

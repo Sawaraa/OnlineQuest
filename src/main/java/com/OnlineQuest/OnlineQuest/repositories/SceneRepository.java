@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface SceneRepository extends JpaRepository<Scene, Long> {
     List<Scene> findByQuest(Quest quest);
+    List<Scene> findByQuestId(Long questId);
 }

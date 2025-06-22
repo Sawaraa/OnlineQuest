@@ -17,6 +17,15 @@ public class SceneServise {
         this.sceneRepository = sceneRepository;
     }
 
+
+    public List<Scene> getScenesByQuestId(Long questId) {
+        return sceneRepository.findByQuestId(questId);
+    }
+
+    public List<Scene> getAllScenes() {
+        return sceneRepository.findAll();
+    }
+
     public Scene createScene(Scene scene) {
         return sceneRepository.save(scene);
     }
