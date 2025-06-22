@@ -22,6 +22,7 @@ public class Option {
     @JoinColumn(name = "scene_id")
     private Scene currentScene;
 
-    @Column
-    private String nextSceneName;
+    @ManyToOne
+    @JoinColumn(name = "next_scene_id")
+    private Scene nextScene;
 }

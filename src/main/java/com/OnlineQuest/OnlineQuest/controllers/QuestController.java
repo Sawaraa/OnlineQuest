@@ -3,6 +3,7 @@ package com.OnlineQuest.OnlineQuest.controllers;
 import com.OnlineQuest.OnlineQuest.model.Option;
 import com.OnlineQuest.OnlineQuest.model.Quest;
 import com.OnlineQuest.OnlineQuest.model.Scene;
+import com.OnlineQuest.OnlineQuest.model.User;
 import com.OnlineQuest.OnlineQuest.repositories.OptionRepository;
 import com.OnlineQuest.OnlineQuest.repositories.QuestRepository;
 import com.OnlineQuest.OnlineQuest.repositories.SceneRepository;
@@ -52,57 +53,69 @@ public class QuestController {
     public String createQuest(@ModelAttribute Quest quest,
                               @RequestParam("image") MultipartFile imageFile) throws IOException {
 
+//        // Тимчасово встановлюємо тестового користувача (наприклад, user з id = 1)
+//        User testUser = userRepository.findById(1L)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//        quest.setCreatedBy(testUser);
+
+        // Збереження зображення
         if (!imageFile.isEmpty()) {
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path uploadPath = Paths.get("uploads/quests"); // створити цю папку в resources/static або окремо
+            Path uploadPath = Paths.get("uploads/quests");
             Files.createDirectories(uploadPath);
 
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            quest.setImagePath("/uploads/quests/" + fileName); // записуємо шлях у БД
+            quest.setImagePath("/uploads/quests/" + fileName);
         }
 
-        // Прив’язуємо сценки до квесту
-        Map<String, Scene> sceneNameMap = new HashMap<>();
+        // Підв'язуємо сцени до квесту
         if (quest.getScenes() != null) {
             for (Scene scene : quest.getScenes()) {
                 scene.setQuest(quest);
-                sceneNameMap.put(scene.getName(), scene); // Зберігаємо сценки по назві
-            }
 
-            for (Scene scene : quest.getScenes()) {
                 if (scene.getOptions() != null) {
                     for (Option option : scene.getOptions()) {
                         option.setCurrentScene(scene);
-
-                        // Пошук nextScene по назві
-                        String nextSceneName = option.getNextSceneName();
-                        if (nextSceneName != null && sceneNameMap.containsKey(nextSceneName)) {
-                            option.setNextSceneName(String.valueOf(sceneNameMap.get(nextSceneName)));
-                        }
                     }
                 }
             }
         }
 
-        Quest save = questService.createQuest(quest);
+        // Зберігаємо квест з усіма сценами та опціями (але ще без nextScene, бо id ще не відомі)
+        Quest savedQuest = questService.createQuest(quest);
 
-        return "redirect:/quests/" + save.getId() + "/editoptions";
+        // Створюємо мапу для зв'язку "номер сцени → сама сцена"
+        Map<Integer, Scene> indexToScene = new HashMap<>();
+        for (int i = 0; i < savedQuest.getScenes().size(); i++) {
+            indexToScene.put(i, savedQuest.getScenes().get(i));
+        }
+
+        // Проставляємо nextScene для кожного варіанта (тільки тепер, коли є ID)
+        for (int i = 0; i < savedQuest.getScenes().size(); i++) {
+            Scene scene = savedQuest.getScenes().get(i);
+            List<Option> options = scene.getOptions();
+            if (options != null) {
+                for (Option option : options) {
+                    // тут nextSceneId — це індекс сцени, який приходить з HTML як value в <option>
+                    try {
+                        int nextSceneIndex = Integer.parseInt(option.getNextScene() != null ? option.getNextScene().getId().toString() : "-1");
+                        Scene nextScene = indexToScene.get(nextSceneIndex);
+                        if (nextScene != null) {
+                            option.setNextScene(nextScene);
+                        }
+                    } catch (NumberFormatException e) {
+                        // некоректне значення — ігноруємо
+                    }
+                }
+            }
+        }
+
+        questService.createQuest(savedQuest); // повторне збереження з nextScene
+
+        return "redirect:/quests/success";
     }
-
-   /* @GetMapping("/{id}/editoptions")
-    public String showEditOptionsPage(@PathVariable Long id, Model model) {
-        Quest quest = questService.getQuestById(id).orElseThrow();
-        model.addAttribute("quest", quest);
-
-        List<Scene> scenes = sceneServise.getScenesByQuestId(id);
-        model.addAttribute("scenes", scenes);
-
-        return "/editoption";
-    }*/
-
-
 
     @GetMapping("/success")
     public String showSuccessPage() {
