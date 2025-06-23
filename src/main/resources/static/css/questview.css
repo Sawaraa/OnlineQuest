@@ -1,0 +1,54 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #111;
+}
+
+.quest-container {
+    max-width: 800px;
+    margin: 60px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.quest-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.quest-container h1 {
+    font-size: 2em;
+    margin: 0 0 20px;
+    color: #000;
+}
+
+.quest-container p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.start-quest-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 1em;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.start-quest-btn:hover {
+    background-color: #222;
+}

@@ -15,7 +15,7 @@
         <div class="quest-content">
             <h2 class="quest-title" th:text="${quest.title}"></h2>
             <p class="quest-description" th:text="${quest.description}"></p>
-            <button class="start-btn">Start</button>
+            <a th:href="@{/quests/{id}(id=${quest.id})}" class="start-btn">Start</a>
         </div>
     </div>
 </div>

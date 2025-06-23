@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${quest.title}">Квест</title>
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" href="/css/questview.css" th:href="@{/css/questview.css}" />
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+
+<div class="quest-container">
+    <img th:src="@{${quest.imagePath}}" alt="Quest Image" class="quest-image" />
+
+    <div class="quest-info">
+        <h1 th:text="${quest.title}">Назва квесту</h1>
+        <p th:text="${quest.description}">Опис квесту</p>
+
+        <a th:href="@{/quests/start/{id}(id=${quest.id})}" class="start-quest-btn">Start</a>
+    </div>
+</div>
+
+</body>
+</html>

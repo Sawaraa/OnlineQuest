@@ -3,10 +3,6 @@ package com.OnlineQuest.OnlineQuest.controllers;
 import com.OnlineQuest.OnlineQuest.model.Option;
 import com.OnlineQuest.OnlineQuest.model.Quest;
 import com.OnlineQuest.OnlineQuest.model.Scene;
-import com.OnlineQuest.OnlineQuest.model.User;
-import com.OnlineQuest.OnlineQuest.repositories.OptionRepository;
-import com.OnlineQuest.OnlineQuest.repositories.QuestRepository;
-import com.OnlineQuest.OnlineQuest.repositories.SceneRepository;
 import com.OnlineQuest.OnlineQuest.service.OptionalService;
 import com.OnlineQuest.OnlineQuest.service.QuestService;
 import com.OnlineQuest.OnlineQuest.service.SceneServise;
@@ -81,6 +77,7 @@ public class QuestController {
                     }
                 }
             }
+            quest.setStartScene(quest.getScenes().get(0));
         }
 
         // Зберігаємо квест з усіма сценами та опціями (але ще без nextScene, бо id ще не відомі)
