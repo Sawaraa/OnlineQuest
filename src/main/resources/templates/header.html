@@ -4,10 +4,17 @@
 <header class="header-outer">
     <div class="header-inner responsive-wrapper">
         <nav class="header-navigation">
-            <a th:href="@{/index}" class="nav-left">Home</a>
+            <a th:href="@{/}" class="nav-left">Home</a>
             <a href="#" class="nav-left">About</a>
             <a th:href="@{/quests/create}" class="nav-center">Create Quest</a>
-            <a th:href="@{/login}" class="nav-right">Log out</a>
+            <a th:href="@{/login}" class="nav-right"
+               th:if="${session.loggedInUser == null}">Login</a>
+
+            <a th:href="@{/logout}" class="nav-right"
+               th:if="${session.loggedInUser != null}">Logout</a>
+            <span class="nav-right username"
+                  th:if="${session.loggedInUser != null}"
+                  th:text="${session.loggedInUser.username}">Користувач</span>
             <button>Menu</button>
         </nav>
     </div>
