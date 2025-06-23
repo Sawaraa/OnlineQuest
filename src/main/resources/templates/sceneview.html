@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${scene.name}">Сцена</title>
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" href="/css/sceneview.css" th:href="@{/css/sceneview.css}" />
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+
+<div class="scene-container">
+    <h1 th:text="${scene.name}">Назва сцени</h1>
+    <p th:text="${scene.text}">Опис сцени</p>
+
+    <div class="options" th:if="${!scene.final}">
+        <h3>Варіанти дій:</h3>
+        <ul>
+            <li th:each="option : ${scene.options}">
+                <a th:href="@{/quests/scene/{id}(id=${option.nextScene.id})}" th:text="${option.text}">Назва опції</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="final-message" th:if="${scene.final}">
+        <p>🎉 Ви завершили квест!</p>
+        <a href="/" class="btn">Повернутися на головну</a>
+    </div>
+</div>
+
+</body>
+</html>

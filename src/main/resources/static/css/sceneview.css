@@ -1,0 +1,96 @@
+body {
+    background-color: #fff;
+    color: #111;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.scene-container {
+    max-width: 700px;
+    width: 100%;
+    margin: 80px auto 40px;
+    padding: 30px;
+    border: 1px solid #111;
+    border-radius: 12px;
+    background-color: #fafafa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.scene-container h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #111;
+    padding-bottom: 8px;
+}
+
+.scene-container p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.options {
+    margin-top: 40px;
+}
+
+.options h3 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.options ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.options li {
+    width: 100%;
+}
+
+.options a {
+    display: block;
+    padding: 12px;
+    background-color: #111;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.options a:hover {
+    background-color: #444;
+}
+
+.final-message {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111;
+    margin-top: 40px;
+}
+
+.final-message .btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 30px;
+    border: 2px solid #111;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #111;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.final-message .btn:hover {
+    background-color: #111;
+    color: #fff;
+    cursor: pointer;
+}

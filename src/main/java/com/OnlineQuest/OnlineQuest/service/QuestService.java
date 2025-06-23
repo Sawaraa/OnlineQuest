@@ -1,8 +1,11 @@
 package com.OnlineQuest.OnlineQuest.service;
 
 import com.OnlineQuest.OnlineQuest.model.Quest;
+import com.OnlineQuest.OnlineQuest.model.Scene;
 import com.OnlineQuest.OnlineQuest.model.User;
 import com.OnlineQuest.OnlineQuest.repositories.QuestRepository;
+import com.OnlineQuest.OnlineQuest.repositories.SceneRepository;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +15,11 @@ import java.util.Optional;
 public class QuestService {
 
     private final QuestRepository questRepository;
+    private final SceneRepository sceneRepository;
 
-    public QuestService(QuestRepository questRepository) {
+    public QuestService(QuestRepository questRepository, SceneRepository sceneRepository) {
         this.questRepository = questRepository;
+        this.sceneRepository = sceneRepository;
     }
 
     public Quest createQuest(Quest quest) {
@@ -35,6 +40,10 @@ public class QuestService {
 
     public void deleteQuest(Long id) {
         questRepository.deleteById(id);
+    }
+
+    public Optional<Scene> getSceneById(Long id) {
+        return sceneRepository.findById(id);
     }
 
 }

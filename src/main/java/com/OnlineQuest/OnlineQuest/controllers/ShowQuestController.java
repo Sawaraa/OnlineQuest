@@ -37,18 +37,32 @@ public class ShowQuestController {
         }
     }
 
-//    @GetMapping("/quests/start/{questId}")
-//    public String startQuest(@PathVariable Long questId, Model model) {
-//        Optional<Quest> questOpt = questService.getQuestById(questId);
-//
-//        if (questOpt.isEmpty()) {
-//            return "redirect:/?error=questnotfound";
-//        }
-//
-//        Quest quest = questOpt.get();
-//        Scene startScene = quest.getStartScene();
-//
-//        return "redirect:/quests/scene/" + startScene.getId();
-//    }
+    @GetMapping("/quests/start/{questId}")
+    public String startQuest(@PathVariable Long questId, Model model) {
+        Optional<Quest> questOpt = questService.getQuestById(questId);
+
+        if (questOpt.isEmpty()) {
+            return "redirect:/?error=questnotfound";
+        }
+
+        Quest quest = questOpt.get();
+        Scene startScene = quest.getStartScene();
+
+        return "redirect:/quests/scene/" + startScene.getId();
+    }
+
+    @GetMapping("/quests/scene/{sceneId}")
+    public String viewScene(@PathVariable Long sceneId, Model model) {
+        Optional<Scene> sceneOpt = questService.getSceneById(sceneId);
+
+        if (sceneOpt.isEmpty()) {
+            return "redirect:/?error=scenenotfound";
+        }
+
+        Scene scene = sceneOpt.get();
+        model.addAttribute("scene", scene);
+
+        return "sceneview";
+    }
 
 }
