@@ -25,24 +25,19 @@ public class AuthController {
         return "register";
     }
 
-//    @PostMapping("/register")
-//    public String registerUser(@ModelAttribute("user") User user, Model model) {
-//        try {
-//            userService.registerUser(user);
-//            return "redirect:/";
-//        } catch (Exception e) {
-//            model.addAttribute("error", e.getMessage());
-//            return "register"; // залишаємося на формі
-//        }
-//    }
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user,
                                Model model,
                                HttpSession session) throws Exception {
-        User savedUser = userService.registerUser(user);
-        session.setAttribute("loggedInUser", savedUser);
-        return "redirect:/";
+        try {
+            User savedUser = userService.registerUser(user);
+            session.setAttribute("loggedInUser", savedUser);
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "register"; // залишаємося на сторінці реєстрації з помилкою
+        }
     }
 
 

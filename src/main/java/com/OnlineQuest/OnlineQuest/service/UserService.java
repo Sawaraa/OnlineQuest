@@ -18,20 +18,58 @@ public class UserService {
     }
 
     public User registerUser(User user) throws Exception {
-        if (userRepository.existsByEmail(user.getEmail())) {
+        String username = user.getUsername();
+        String email = user.getEmail();
+        String password = user.getPassword();
+
+        // Перевірка довжини імені
+        if (username == null || username.length() < 3 || username.length() > 8) {
+            throw new Exception("Username must be between 3 and 8 characters");
+        }
+
+        // Перевірка формату email і домену gmail.com
+        if (email == null || !email.matches("^[\\w.-]+@gmail\\.com$")) {
+            throw new Exception("Email must be a valid gmail.com address");
+        }
+
+        // Перевірка довжини пароля
+        if (password == null || password.length() < 4 || password.length() > 10) {
+            throw new Exception("Password must be between 4 and 10 characters");
+        }
+
+        // Перевірка на існуючий email
+        if (userRepository.existsByEmail(email)) {
             throw new Exception("Email already exists");
         }
 
-        if (userRepository.existsByUsername(user.getUsername())) {
+        // Перевірка на існуюче ім'я користувача
+        if (userRepository.existsByUsername(username)) {
             throw new Exception("Username already exists");
         }
 
-        String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
+        String hashedPassword = PasswordUtil.hashPassword(password);
         user.setPassword(hashedPassword);
         user.setRole(Role.USER);
 
         return userRepository.save(user);
     }
+
+
+//    public User registerUser(User user) throws Exception {
+//        if (userRepository.existsByEmail(user.getEmail())) {
+//            throw new Exception("Email already exists");
+//        }
+//
+//        if (userRepository.existsByUsername(user.getUsername())) {
+//            throw new Exception("Username already exists");
+//        }
+//
+//        String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
+//        user.setPassword(hashedPassword);
+//        user.setRole(Role.USER);
+//
+//        return userRepository.save(user);
+//    }
     /**
      * Authorization
      */
