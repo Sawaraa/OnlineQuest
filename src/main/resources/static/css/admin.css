@@ -334,4 +334,82 @@ select:active {
     color: white;
 }
 
+.top-right-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    padding-right: 2rem;
+}
+
+.logout-btn {
+    background-color: white;
+    color: #007acc;
+    border: 2px solid #007acc;
+    border-radius: 6px;
+    padding: 0.4em 1.2em;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.logout-btn:hover,
+.logout-btn:focus {
+    background-color: #b3d7ff;
+    color: #003f6b;
+    outline: none;
+}
+
+.logout-btn:active {
+    background-color: #005a9e;
+    color: white;
+}
+
+.admin-wrapper {
+    position: relative;
+    padding-top: 3.5rem; /* додаємо простору зверху для кнопки */
+    max-width: 90vw;
+    margin: 0 auto;
+    overflow-x: hidden; /* прибираємо горизонтальний скрол */
+}
+
+.top-right-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.logout-btn {
+    background-color: white;
+    color: #007acc;
+    border: 2px solid #007acc;
+    border-radius: 6px;
+    padding: 0.4em 1.2em;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.logout-btn:hover,
+.logout-btn:focus {
+    background-color: #b3d7ff;
+    color: #003f6b;
+    outline: none;
+}
+
+.logout-btn:active {
+    background-color: #005a9e;
+    color: white;
+}
+
+.members table {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+
+
 

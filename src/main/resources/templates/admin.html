@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
+<div class="admin-wrapper">
+<div class="top-right-button">
+    <a th:href="@{/register}" class="logout-btn">Logout</a>
+</div>
 <div class="members">
     <table role="grid">
         <thead>
@@ -37,6 +41,7 @@
             </tr>
         </tbody>
     </table>
+</div>
 </div>
 <script>
     function submitRoleForm(userId) {

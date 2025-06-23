@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Пройдені квести</title>
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" href="/css/completed.css" th:href="@{/css/completed.css}" />
+</head>
+<body>
+
+<div th:insert="~{header :: header}"></div>
+
+<div class="completed-container">
+    <h1>Пройдені квести</h1>
+
+    <div class="quest-list">
+        <div class="quest-card" th:each="quest : ${completedQuests}">
+            <img th:src="@{${quest.imagePath}}" alt="Зображення квесту" class="quest-image"/>
+            <div class="quest-info">
+                <h2 th:text="${quest.title}">Назва</h2>
+                <p th:text="${quest.description}">Опис</p>
+                <a th:href="@{/quests/{id}(id=${quest.id})}" class="btn">Переглянути</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

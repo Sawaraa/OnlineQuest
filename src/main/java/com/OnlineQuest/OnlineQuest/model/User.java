@@ -32,6 +32,14 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.USER;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_completed_quests",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "quest_id")
+    )
+    private List<Quest> completedQuests = new ArrayList<>();
+
     public User(){}
 
 
